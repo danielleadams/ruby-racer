@@ -1,18 +1,14 @@
 require 'colorize'
 require 'ruby-progressbar'
-require 'byebug'
 
+require_relative 'ruby-racer/moods/happy'
+require_relative 'ruby-racer/moods/sad'
 require_relative 'ruby-racer/race'
-require_relative 'tests/min'
+require_relative 'ruby-racer/racer'
+require_relative 'ruby-racer/timer'
 
 class RubyRacer
-  def self.go(method, &block)
-    ::Race.start(method, &block)
+  def self.go(method, input, &block)
+    ::Race.start(method, input, &block)
   end
 end
-
-proc = Proc.new do |arr|
-  min_method(arr)
-end
-
-RubyRacer.go(:min, &proc)

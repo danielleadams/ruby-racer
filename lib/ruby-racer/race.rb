@@ -1,50 +1,38 @@
-require 'benchmark'
-
 class Race
-  def self.start(method, &block)
-    iterations = 1000000
+  def self.start(method, input, &block)
+    pb2 = ::Racer.new('You')
+    pb1 = ::Racer.new('Ruby')
 
-    pb = ProgressBar.create(:format     => '%t %bᗧ%i %p%%',
-                       :rate_scale => lambda { |rate| rate / 2048 },
-                       :title => 'Ruby Version'.colorize(:red),
-                       :throttle_rate => 0.001,
-                       :total => iterations,
-                       :progress_mark => ' ',
-                       :remainder_mark => '.')
+    t2 = ::Timer.new
+    t1 = ::Timer.new
 
-    pb2 = ProgressBar.create(:format     => '%t %bᗧ%i %p%%',
-                       :rate_scale => lambda { |rate| rate / 512 },
-                       :title => 'Your Version'.colorize(:light_blue),
-                       :throttle_rate => 0.001,
-                       :total => iterations,
-                       :progress_mark => ' ',
-                       :remainder_mark => '.')
-
-    x1 = Time.now
-    iterations.times do
-      t = Time.now
-      [2,3,1].send(method)
-      pb.increment
+    t2.measure_time do
+      pb2.race { block.call(input) }
     end
-    x2 = Time.now
-    time1 = x2 - x1
 
-    x3 = Time.now
-    iterations.times do
-      block.call([2,3,1])
-      pb2.increment
+    t1.measure_time do
+      pb1.race { input.send(method) }
     end
-    x4 = Time.now
-    time2 = x4 - x3
 
-    puts time1
-    puts time2
-    puts "\n."
+    display_results(pb1, pb2, t1, t2)
+  end
 
-    if time2 < time1
-      puts 'YOU WIN'.colorize(:green) + ' ヾ｜￣ー￣｜ﾉ'.colorize(:magenta)
+  private
+
+  def display_results(pb1, pb2, t1, t2)
+    puts "\n"
+
+    puts "#{pb2.name} Race Time: #{t2.display_time}".colorize(:cyan)
+    puts "#{pb1.name} Race Time: #{t1.display_time}".colorize(:cyan)
+
+    puts "\n"
+
+    if t2.result_time < t1.result_time
+      puts 'YOU WIN'.colorize(:green) + Moods::Happy.face
     else
-      puts 'YOU LOSE'.colorize(:red) + ' (>.<)'.colorize(:light_blue)
+      puts 'YOU LOSE'.colorize(:red) + Moods::Sad.face
     end
+
+    puts "\n\n\n\n\n\n"
   end
 end
