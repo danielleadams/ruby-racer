@@ -1,3 +1,4 @@
+[![Gem Version](https://badge.fury.io/rb/ruby-racer.svg)](https://badge.fury.io/rb/ruby-racer)
 # RubyRacer
 
 TODO: Write a gem description

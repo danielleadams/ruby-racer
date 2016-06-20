@@ -14,12 +14,6 @@ class Race
       pb1.race { input.send(method) }
     end
 
-    display_results(pb1, pb2, t1, t2)
-  end
-
-  private
-
-  def display_results(pb1, pb2, t1, t2)
     puts "\n"
 
     puts "#{pb2.name} Race Time: #{t2.display_time}".colorize(:cyan)
