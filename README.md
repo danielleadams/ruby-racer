@@ -27,6 +27,10 @@ RubyRacer.go(method_name, input, &my_method)
 
     $ ruby my_method.rb
 
+## Preview
+
+![Ruby Racer Preview](https://github.com/danielleadams/ruby-racer/blob/master/preview.gif)
+
 ## Contributing
 
 1. Fork it ( https://github.com/danielleadams/ruby-racer/fork )
